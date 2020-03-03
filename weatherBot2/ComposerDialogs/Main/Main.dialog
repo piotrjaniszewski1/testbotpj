@@ -1,0 +1,105 @@
+{
+  "$type": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "$designer": {
+      "name": "weatherBot2",
+      "id": "769221"
+    }
+  },
+  "autoEndDialog": "true",
+  "defaultResultProperty": "dialog.result",
+  "recognizer": "Main.lu",
+  "triggers": [
+    {
+      "$type": "Microsoft.OnConversationUpdateActivity",
+      "$designer": {
+        "id": "376720",
+        "name": "WelcomeTheUser"
+      },
+      "actions": [
+        {
+          "$type": "Microsoft.SendActivity",
+          "$designer": {
+            "id": "767338",
+            "name": "Send a response"
+          },
+          "activity": "@{bfdactivity-767338()}"
+        }
+      ]
+    },
+    {
+      "$type": "Microsoft.OnIntent",
+      "$designer": {
+        "id": "652679"
+      },
+      "actions": [
+        {
+          "$type": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "574209",
+            "name": "Begin a new dialog"
+          },
+          "includeActivity": false,
+          "dialog": "getWeather"
+        }
+      ],
+      "intent": "Weather"
+    },
+    {
+      "$type": "Microsoft.OnUnknownIntent",
+      "$designer": {
+        "id": "442934"
+      },
+      "actions": [
+        {
+          "$type": "Microsoft.SendActivity",
+          "$designer": {
+            "id": "389000",
+            "name": "Send a response"
+          },
+          "activity": "@{bfdactivity-389000()}"
+        }
+      ]
+    },
+    {
+      "$type": "Microsoft.OnIntent",
+      "$designer": {
+        "id": "704289"
+      },
+      "condition": "",
+      "actions": [
+        {
+          "$type": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "300991",
+            "name": "Begin a new dialog"
+          },
+          "includeActivity": false,
+          "dialog": "Help"
+        }
+      ],
+      "intent": "Help"
+    },
+    {
+      "$type": "Microsoft.OnIntent",
+      "$designer": {
+        "id": "814707"
+      },
+      "condition": "",
+      "actions": [
+        {
+          "$type": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "970212",
+            "name": "Begin a new dialog"
+          },
+          "includeActivity": false,
+          "dialog": "cancel"
+        }
+      ],
+      "intent": "Cancel"
+    }
+  ],
+  "$schema": "https://raw.githubusercontent.com/microsoft/BotFramework-Composer/stable/Composer/packages/server/schemas/sdk.schema",
+  "generator": "common.lg"
+}

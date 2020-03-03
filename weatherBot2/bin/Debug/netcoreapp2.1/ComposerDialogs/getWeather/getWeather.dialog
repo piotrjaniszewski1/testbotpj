@@ -1,0 +1,118 @@
+{
+  "$type": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "name": "getWeather",
+    "id": "862851"
+  },
+  "autoEndDialog": "true",
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$type": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "id": "128307"
+      },
+      "actions": [
+        {
+          "$type": "Microsoft.SendActivity",
+          "$designer": {
+            "id": "869182",
+            "name": "Send a response"
+          },
+          "activity": "@{bfdactivity-869182()}"
+        },
+        {
+          "$type": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "494117",
+            "name": "Set a property"
+          },
+          "property": "user.zipcode",
+          "value": "@zipcode"
+        },
+        {
+          "$type": "Microsoft.TextInput",
+          "$designer": {
+            "id": "532957",
+            "name": "Text input"
+          },
+          "prompt": "@{bfdprompt-532957()}",
+          "invalidPrompt": "@{bfdinvalidPrompt-532957()}",
+          "maxTurnCount": 3,
+          "validations": [
+            "length(this.value) == 5",
+            "int(this.value) != null"
+          ],
+          "property": "user.zipcode",
+          "alwaysPrompt": false,
+          "allowInterruptions": "true"
+        },
+        {
+          "$type": "Microsoft.SendActivity",
+          "$designer": {
+            "id": "381733",
+            "name": "Send a response"
+          },
+          "activity": "@{bfdactivity-381733()}"
+        },
+        {
+          "$type": "Microsoft.HttpRequest",
+          "$designer": {
+            "id": "148176",
+            "name": "Send an HTTP request"
+          },
+          "method": "GET",
+          "url": "http://weatherbot-ignite-2019.azurewebsites.net/api/getWeather?zipcode=@{user.zipcode}",
+          "resultProperty": "dialog.api_response",
+          "responseType": "Json"
+        },
+        {
+          "$type": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "664274",
+            "name": "Branch: if/else"
+          },
+          "condition": "dialog.api_response.statusCode == 200",
+          "actions": [
+            {
+              "$type": "Microsoft.SetProperty",
+              "$designer": {
+                "id": "463457",
+                "name": "Set a property"
+              },
+              "property": "dialog.weather",
+              "value": "dialog.api_response.content"
+            },
+            {
+              "$type": "Microsoft.SendActivity",
+              "$designer": {
+                "id": "749098",
+                "name": "Send a response"
+              },
+              "activity": "@{bfdactivity-749098()}"
+            }
+          ],
+          "elseActions": [
+            {
+              "$type": "Microsoft.SendActivity",
+              "$designer": {
+                "id": "887339",
+                "name": "Send a response"
+              },
+              "activity": "@{bfdactivity-887339()}"
+            },
+            {
+              "$type": "Microsoft.DeleteProperty",
+              "$designer": {
+                "id": "820084",
+                "name": "Delete a property"
+              },
+              "property": "user.zipcode"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
